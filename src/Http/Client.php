@@ -31,6 +31,13 @@ class Client extends Guzzle
                     'Authorization' => 'Bearer ' . $this->generateAuthenticationCurl(),
                 ],
             ], $config);
+
+            if (
+                null !== Config::getXIdempotencyKey()
+                && ! array_key_exists('X-Idempotency-Key', $config['headers'])
+            ) {
+                $config['headers']['X-Idempotency-Key'] = Config::getXIdempotencyKey();
+            }
         } catch (GuzzleException $e) {
             // print_r($e->getResponse()->getBody()->getContents());
         }

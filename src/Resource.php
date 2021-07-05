@@ -50,6 +50,10 @@ abstract class Resource
             Config::setClientSecret($args[Config::CLIENT_SECRET]);
         }
 
+        if (key_exists(Config::X_IDEMPOTENCY_KEY, $args)) {
+            Config::setXIdempotencyKey($args[Config::X_IDEMPOTENCY_KEY]);
+        }
+
         $this->resource_requester = new ResourceRequester;
     }
 
