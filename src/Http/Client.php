@@ -6,9 +6,19 @@ use GuzzleHttp\Client as Guzzle;
 use GuzzleHttp\Exception\GuzzleException;
 use TamoJuno\Config;
 
+/**
+ * Class Client
+ *
+ * @package TamoJuno\Http
+ */
 class Client extends Guzzle
 {
 
+    /**
+     * Client constructor.
+     *
+     * @param array $config
+     */
     public function __construct(array $config = [])
     {
         try {
@@ -19,23 +29,26 @@ class Client extends Guzzle
                     'X-Api-Version' => '2',
                     'X-Resource-Token' => Config::getPrivateToken(),
                     'Authorization' => 'Bearer ' . $this->generateAuthenticationCurl(),
-                ]
+                ],
             ], $config);
         } catch (GuzzleException $e) {
-            print_r($e->getResponse()->getBody()->getContents());
+            // print_r($e->getResponse()->getBody()->getContents());
         }
         parent::__construct($config);
     }
 
-    private function generateAuthenticationCurl():?string
+    /**
+     * @return string|null
+     */
+    private function generateAuthenticationCurl(): ?string
     {
 
         $curl = curl_init();
 
         $credentials = base64_encode(Config::getClientId() . ":" . Config::getClientSecret());
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://sandbox.boletobancario.com/authorization-server/oauth/token',
+        curl_setopt_array($curl, [
+            CURLOPT_URL => Config::getAuthUrl() . '/oauth/token',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -44,11 +57,11 @@ class Client extends Guzzle
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => "grant_type=client_credentials",
-            CURLOPT_HTTPHEADER => array(
-                'Authorization: Basic '. $credentials,
-                'Content-Type: application/x-www-form-urlencoded'
-            ),
-        ));
+            CURLOPT_HTTPHEADER => [
+                'Authorization: Basic ' . $credentials,
+                'Content-Type: application/x-www-form-urlencoded',
+            ],
+        ]);
 
         $response = json_decode(curl_exec($curl), true);
         curl_close($curl);

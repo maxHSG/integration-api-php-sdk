@@ -3,15 +3,20 @@
 namespace TamoJuno;
 
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
 use TamoJuno\Http\Client;
-use TamoJuno\Http\OauthClient;
 
+/**
+ * Class ResourceRequester
+ *
+ * @package TamoJuno
+ */
 class ResourceRequester
 {
 
     /**
-     * @var \TamoJuno\Http\Client
+     * @var Client
      */
     public $client;
 
@@ -34,14 +39,13 @@ class ResourceRequester
     }
 
     /**
-     * @param string $method   HTTP Method.
-     * @param string $endpoint Relative to API base path.
-     * @param array  $options  Options for the request.
+     * @param $method
+     * @param $endpoint
+     * @param array $options
      *
-     * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return object
+     * @throws GuzzleException
      */
-
     public function request($method, $endpoint, array $options = [])
     {
         $this->lastOptions = $options;
@@ -57,8 +61,7 @@ class ResourceRequester
     /**
      * @param ResponseInterface $response
      *
-     * @return object
-     * @throws RateLimitException
+     * @return mixed
      */
     public function response(ResponseInterface $response)
     {
@@ -76,5 +79,4 @@ class ResourceRequester
 
         return $data;
     }
-
 }

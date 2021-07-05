@@ -2,8 +2,11 @@
 
 namespace TamoJuno;
 
-use GuzzleHttp\Exception\ClientException;
-
+/**
+ * Class Config
+ *
+ * @package TamoJuno
+ */
 class Config
 {
     const AUTH_URL = 'AUTH_URL';
@@ -14,14 +17,44 @@ class Config
     const CLIENT_SECRET = 'CLIENT_SECRET';
     const X_IDEMPOTENCY_KEY = 'X_IDEMPOTENCY_KEY';
 
+    /**
+     * @var string
+     */
     private static $auth_url;
+
+    /**
+     * @var string
+     */
     private static $resource_url;
+
+    /**
+     * @var string
+     */
     private static $private_token;
+
+    /**
+     * @var string
+     */
     private static $public_token;
+
+    /**
+     * @var string
+     */
     private static $client_secret;
+
+    /**
+     * @var string
+     */
     private static $client_id;
+
+    /**
+     * @var string
+     */
     private static $x_idempotency_key;
 
+    /**
+     * Config constructor.
+     */
     public function __construct()
     {
     }
@@ -31,17 +64,17 @@ class Config
      */
     public static function setAuthUrl($auth_url)
     {
-        if(null === self::$auth_url) {
+        if (null === self::$auth_url) {
             self::$auth_url = $auth_url;
         }
     }
 
     /**
-     * @param mixed $resource_url
+     * @param $resource_url
      */
     public static function setResourceUrl($resource_url)
     {
-        if(null === self::$resource_url) {
+        if (null === self::$resource_url) {
             self::$resource_url = $resource_url;
         }
     }
@@ -51,7 +84,7 @@ class Config
      */
     public static function setPrivateToken($private_token)
     {
-        if(null === self::$private_token) {
+        if (null === self::$private_token) {
             self::$private_token = $private_token;
         }
     }
@@ -61,7 +94,7 @@ class Config
      */
     public static function setPublicToken($public_token)
     {
-        if(null === self::$public_token){
+        if (null === self::$public_token) {
             self::$public_token = $public_token;
         }
     }
@@ -71,7 +104,7 @@ class Config
      */
     public static function setClientId($client_id)
     {
-        if(null === self::$client_id){
+        if (null === self::$client_id) {
             self::$client_id = $client_id;
         }
     }
@@ -81,7 +114,7 @@ class Config
      */
     public static function setClientSecret($client_secret)
     {
-        if(null === self::$client_secret){
+        if (null === self::$client_secret) {
             self::$client_secret = $client_secret;
         }
     }
@@ -91,21 +124,21 @@ class Config
      */
     public static function setXIdempotencyKey($x_idempotency_key)
     {
-        if(null === self::$x_idempotency_key){
+        if (null === self::$x_idempotency_key) {
             self::$x_idempotency_key = $x_idempotency_key;
         }
     }
 
     /**
-     * @return mixed
+     * @return array|false|string
      */
     public static function getAuthUrl()
     {
-        if(null !== self::$auth_url) {
+        if (null !== self::$auth_url) {
             return self::$auth_url;
         }
 
-        if(!empty(getenv(static::AUTH_URL))) {
+        if (! empty(getenv(static::AUTH_URL))) {
             return getenv(static::AUTH_URL);
         }
 
@@ -114,15 +147,15 @@ class Config
     }
 
     /**
-     * @return mixed
+     * @return array|false|string
      */
     public static function getResourceUrl()
     {
-        if(null !== self::$resource_url) {
+        if (null !== self::$resource_url) {
             return self::$resource_url;
         }
 
-        if(!empty(getenv(static::RESOURCE_URL))) {
+        if (! empty(getenv(static::RESOURCE_URL))) {
             return getenv(static::RESOURCE_URL);
         }
 
@@ -130,11 +163,11 @@ class Config
     }
 
     /**
-     * @return string
+     * @return array|false|string
      */
     public static function getPrivateToken()
     {
-        if(null !== self::$private_token) {
+        if (null !== self::$private_token) {
             return self::$private_token;
         }
 
@@ -142,11 +175,11 @@ class Config
     }
 
     /**
-     * @return string
+     * @return array|false|string
      */
     public static function getPublicToken()
     {
-        if(null !== self::$public_token){
+        if (null !== self::$public_token) {
             return self::$public_token;
         }
 
@@ -154,36 +187,35 @@ class Config
     }
 
     /**
-     * @return string
+     * @return array|false|string
      */
     public static function getClientId()
     {
-        if(null !== self::$client_id){
+        if (null !== self::$client_id) {
             return self::$client_id;
         }
         return getenv(static::CLIENT_ID);
     }
 
     /**
-     * @return string
+     * @return array|false|string
      */
     public static function getClientSecret()
     {
-        if(null !== self::$client_secret){
+        if (null !== self::$client_secret) {
             return self::$client_secret;
         }
         return getenv(static::CLIENT_SECRET);
     }
 
     /**
-     * @return string
+     * @return array|false|string
      */
     public static function getXIdempotencyKey()
     {
-        if(null !== self::$x_idempotency_key){
+        if (null !== self::$x_idempotency_key) {
             return self::$x_idempotency_key;
         }
         return getenv(static::X_IDEMPOTENCY_KEY);
     }
-
 }

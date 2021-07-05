@@ -2,15 +2,27 @@
 
 namespace TamoJuno;
 
-class Balance extends Resource {
+/**
+ * Class Balance
+ *
+ * @package TamoJuno
+ */
+class Balance extends Resource
+{
 
+    /**
+     * @return string
+     */
     public function endpoint(): string
     {
         return 'balance';
     }
 
+    /**
+     * @return mixed
+     */
     public function retrieveBalance()
     {
-        return $this->retrieveAll();
+        return $this->all();
     }
 }

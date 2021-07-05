@@ -5,44 +5,49 @@ namespace TamoJuno;
 use GuzzleHttp\Exception\GuzzleException;
 
 /**
- * Class Data
+ * Class Document
  *
  * @package TamoJuno
  */
-class Data extends Resource
+class Document extends Resource
 {
     /**
      * @return string
      */
     public function endpoint(): string
     {
-        return 'data';
+        return 'documents';
     }
 
     /**
      * @return object
      * @throws GuzzleException
      */
-    public function getBanks()
+    public function getDocuments()
     {
-        return $this->get('banks');
+        return $this->all();
     }
 
     /**
+     * @param $id
+     *
      * @return object
      * @throws GuzzleException
      */
-    public function getCompanyTypes()
+    public function getDocument($id)
     {
-        return $this->get('company-types');
+        return $this->retrieve($id);
     }
 
     /**
+     * @param $id
+     * @param array $form_params
+     *
      * @return object
      * @throws GuzzleException
      */
-    public function getBusinessAreas()
+    public function uploadDocuments($id = null, array $form_params = [])
     {
-        return $this->get('business-areas');
+        return $this->post($id, 'files', $form_params, 'multipart');
     }
 }

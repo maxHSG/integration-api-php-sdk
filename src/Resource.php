@@ -2,14 +2,25 @@
 
 namespace TamoJuno;
 
-abstract class Resource {
+use GuzzleHttp\Exception\GuzzleException;
+use Psr\Http\Message\ResponseInterface;
+
+/**
+ * Class Resource
+ *
+ * @package TamoJuno
+ */
+abstract class Resource
+{
 
     /**
-     * @var \TamoJuno\ResourceRequester
+     * @var ResourceRequester
      */
     public $resource_requester;
 
     /**
+     * Resource constructor.
+     *
      * @param array $args
      */
     public function __construct($args = [])
@@ -42,27 +53,35 @@ abstract class Resource {
         $this->resource_requester = new ResourceRequester;
     }
 
+    /**
+     * @return string
+     */
     abstract public function endpoint(): string;
 
-    public function url($id = null, $action = null) {
+    /**
+     * @param $id
+     * @param string $action
+     *
+     * @return string
+     */
+    public function url($id = null, $action = null)
+    {
         $endpoint = $this->endpoint();
 
-        if (!is_null($id)) {
+        if (! is_null($id)) {
             $endpoint .= '/' . $id;
         }
-        if (!is_null($action)){
+        if (! is_null($action)) {
             $endpoint .= '/' . $action;
         }
         return $endpoint;
     }
 
     /**
-     * Create a new resource.
+     * @param array $form_params
      *
-     * @param array $form_params The request body.
-     *
-     * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return object
+     * @throws GuzzleException
      */
     public function create(array $form_params = [])
     {
@@ -70,12 +89,10 @@ abstract class Resource {
     }
 
     /**
-     * Retrieve all resources.
+     * @param array $params
      *
-     * @param array $params Pagination and Filter parameters.
-     *
-     * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return object
+     * @throws GuzzleException
      */
     public function allByQuery(array $params = [])
     {
@@ -83,11 +100,8 @@ abstract class Resource {
     }
 
     /**
-     * Retrieve all resources with no params required.
-     *
-     *
-     * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return object
+     * @throws GuzzleException
      */
     public function all()
     {
@@ -95,12 +109,10 @@ abstract class Resource {
     }
 
     /**
-     * Retrieve a specific resource.
+     * @param $id
      *
-     * @param int $id The resource's id.
-     *
-     * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return object
+     * @throws GuzzleException
      */
     public function retrieve($id = null)
     {
@@ -108,13 +120,10 @@ abstract class Resource {
     }
 
     /**
-     * Update a specific resource by using patch.
+     * @param array $form_params
      *
-     * @param int   $id          The resource's id.
-     * @param array $form_params The request body.
-     *
-     * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException*
+     * @return object
+     * @throws GuzzleException
      */
     public function updateSome(array $form_params = [])
     {
@@ -122,13 +131,11 @@ abstract class Resource {
     }
 
     /**
-     * Update a specific resource.
+     * @param $id
+     * @param array $form_params
      *
-     * @param int   $id          The resource's id.
-     * @param array $form_params The request body.
-     *
-     * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return object
+     * @throws GuzzleException
      */
     public function update($id = null, array $form_params = [])
     {
@@ -136,13 +143,11 @@ abstract class Resource {
     }
 
     /**
-     * Delete a specific resource.
+     * @param $id
+     * @param array $form_params
      *
-     * @param int   $id          The resource's id.
-     * @param array $form_params The request body.
-     *
-     * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return object
+     * @throws GuzzleException
      */
     public function delete($id = null, array $form_params = [])
     {
@@ -150,13 +155,11 @@ abstract class Resource {
     }
 
     /**
-     * Make a GET request to an additional endpoint for a specific resource.
+     * @param $id
+     * @param string $action
      *
-     * @param int    $id                 The resource's id.
-     * @param string $additionalEndpoint Additional endpoint that will be appended to the URL.
-     *
-     * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return object
+     * @throws GuzzleException
      */
     public function getById($id = null, $action = null)
     {
@@ -164,13 +167,10 @@ abstract class Resource {
     }
 
     /**
-     * Make a GET request to an additional endpoint for a specific resource.
+     * @param string $action
      *
-     * @param int    $id                 The resource's id.
-     * @param string $additionalEndpoint Additional endpoint that will be appended to the URL.
-     *
-     * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return object
+     * @throws GuzzleException
      */
     public function get($action = null)
     {
@@ -178,28 +178,24 @@ abstract class Resource {
     }
 
     /**
-     * Make a POST request to an additional endpoint for a specific resource.
+     * @param null $id
+     * @param null $action
+     * @param array $form_params
+     * @param string $formType
      *
-     * @param int    $id                 The resource's id.
-     * @param string $additionalEndpoint Additional endpoint that will be appended to the URL.
-     * @param array  $form_params        The request body.
-     *
-     * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return object
+     * @throws GuzzleException
      */
-    public function post($id = null, $action = null, array $form_params = [])
+    public function post($id = null, $action = null, array $form_params = [], $formType = 'json')
     {
-        return $this->resource_requester->request('POST', $this->url($id, $action), ['json' => $form_params]);
+        return $this->resource_requester->request('POST', $this->url($id, $action), [$formType => $form_params]);
     }
 
     /**
-     * Return the last response from a preview request
-     *
-     * @return mixed
+     * @return ResponseInterface
      */
     public function getLastResponse()
     {
         return $this->resource_requester->lastResponse;
     }
-
 }

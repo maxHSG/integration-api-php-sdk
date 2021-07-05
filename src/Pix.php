@@ -2,24 +2,47 @@
 
 namespace TamoJuno;
 
-use TamoJuno\Resource;
+use GuzzleHttp\Exception\GuzzleException;
 
-class Pix extends Resource {
+/**
+ * Class Pix
+ *
+ * @package TamoJuno
+ */
+class Pix extends Resource
+{
 
+    /**
+     * @return string
+     */
     public function endpoint(): string
     {
         return 'pix';
     }
 
+    /**
+     * @param null $id
+     * @param null $action
+     * @param array $form_params
+     *
+     * @return object
+     * @throws GuzzleException
+     */
     public function createRandomKey($id = null, $action = null, array $form_params = [])
     {
-        return $this->post(id,'keys', $form_params);
+        return $this->post($id, 'keys', $form_params);
     }
 
+    /**
+     * @param null $id
+     * @param null $action
+     * @param array $form_params
+     *
+     * @return object
+     * @throws GuzzleException
+     */
     public function createStaticQRCode($id = null, $action = null, array $form_params = [])
     {
-        return $this->post(id,'qrcodes/static', $form_params);
+        return $this->post($id, 'qrcodes/static', $form_params);
     }
-
-
 }
