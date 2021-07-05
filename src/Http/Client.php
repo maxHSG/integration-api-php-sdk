@@ -55,7 +55,7 @@ class Client extends Guzzle
         $credentials = base64_encode(Config::getClientId() . ":" . Config::getClientSecret());
 
         curl_setopt_array($curl, [
-            CURLOPT_URL => Config::getAuthUrl() . '/oauth/token',
+            CURLOPT_URL => Config::getAuthUrl(),
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,

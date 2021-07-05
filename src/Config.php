@@ -142,7 +142,7 @@ class Config
             return getenv(static::AUTH_URL);
         }
 
-        return 'https://sandbox.boletobancario.com/authorization-server/oauth/token/';
+        return 'https://sandbox.boletobancario.com/authorization-server/oauth/token';
 
     }
 
