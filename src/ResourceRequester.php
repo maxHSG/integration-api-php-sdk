@@ -69,14 +69,8 @@ class ResourceRequester
 
         $content = $response->getBody()->getContents();
 
-        $decoded = json_decode($content);
-        $data = $decoded;
-
-        if (empty($decoded)) {
-            reset($decoded);
-            return $data = current($decoded);
-        }
-
+        $data = json_decode($content);
+        
         return $data;
     }
 }
